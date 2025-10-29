@@ -5,6 +5,7 @@
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<script src="https://cdn.tailwindcss.com"></script>
+
 	<title>Document</title>
 </head>
 
@@ -25,12 +26,14 @@
 	</header>
 
 	<section class="p-8 md:p-20 text-white">
-		<div class="mb-10">
-			<h1 class="text-left text-4xl md:text-5xl font-bold tracking-tighter">
-				Welcome to <span class="text-[#68C579]">Baztami</span>
-			</h1>
+		<div>
+			<div class="mb-10">
+				<h1 class="text-left text-4xl md:text-5xl font-bold tracking-tighter">
+					Welcome to <span class="text-[#68C579]">Baztami</span>
+				</h1>
+			</div>
+			
 		</div>
-
 		<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 			<!-- Revenus -->
 			<div class="bg-black/10 p-6 rounded-2xl shadow-xl h-40 grid">
@@ -40,7 +43,7 @@
 				<div class="flex items-center gap-1 self-end justify-self-end">
 					<p class="text-green-500 text-5xl font-bold">+</p>
 					<div class="tracking-wide text-6xl font-bold leading-none">
-						<span>1200</span>
+						<span id="Revenus">0</span>
 						<span>£</span>
 					</div>
 				</div>
@@ -54,7 +57,7 @@
 				<div class="flex items-center gap-1 self-end justify-self-end">
 					<p class="text-red-500 text-5xl font-bold">-</p>
 					<div class="tracking-wide text-6xl font-bold leading-none">
-						<span>1200</span>
+						<span id="Deposit">0</span>
 						<span>£</span>
 					</div>
 				</div>
@@ -66,22 +69,72 @@
 				<div class="flex items-center gap-1 self-end justify-self-end">
 					<p class="text-green-500 text-5xl font-bold">+</p>
 					<div class="tracking-wide text-6xl font-bold leading-none">
-						<span>1200</span>
+						<span id="sold">0</span>
 						<span>£</span>
 					</div>
 				</div>
 			</div>
 		</div>
+
+		<div>
+
+		</div>
 		<div class="grid grid-cols-1 pt-2 md:grid-cols-2 gap-3">
-			<button
+			<button id="openbtn1"
 				class="bg-red-400 text-center col-span-2 p-2 rounded-3xl border-2 border-red-600 hover:bg-red-600 active:bg-red-500">
 				Deposite
 			</button>
-			<button
+			<button id="openbtn2"
 				class="bg-green-400 text-center col-span-2 p-2 rounded-3xl border-2 border-green-600 hover:bg-green-600 active:bg-green-500">
 				Revenus
 			</button>
 		</div>
+
+
+
+		<div id="popup1" class="hidden fixed inset-0 bg-black/60 flex items-start justify-center pt-20 ">
+			<!-- Popup -->
+			<div class="bg-white rounded-2xl w-[25em] shadow-xl p-6">
+				<div class="flex justify-between items-center mb-4">
+					<h1 class="font-bold text-xl text-black">Deposit Amount</h1>
+					<img src="/images/exit-icon.png" alt="close" id="closebtn" class="w-7 cursor-pointer">
+				</div>
+
+				<div class="mb-6">
+					<input type="text" placeholder="Enter amount" id="amountinput1"
+						class="text-black w-full border border-gray-400 p-2 rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500">
+				</div>
+
+				<div class="text-center">
+					<button id="submitbtn1"
+						class="bg-red-600 text-white px-4 py-2 rounded-full hover:bg-red-500 active:bg-red-700 transition-all">
+						Submit
+					</button>
+				</div>
+			</div>
+		</div>
+		<div id="popup2" class="hidden fixed inset-0 bg-black/60 flex items-start justify-center pt-20 ">
+			<!-- Popup -->
+			<div class="bg-white rounded-2xl w-[25em] shadow-xl p-6">
+				<div class="flex justify-between items-center mb-4">
+					<h1 class="font-bold text-xl text-black">Revenus Amout</h1>
+					<img src="/images/exit-icon.png" alt="close" id="closebtn_rev" class="w-7 cursor-pointer">
+				</div>
+
+				<div class="mb-6">
+					<input type="text" placeholder="Enter amount" id="amountinput2"
+						class="text-black w-full border border-gray-400 p-2 rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500">
+				</div>
+
+				<div class="text-center">
+					<button id="submitbtn2"
+						class="bg-red-600 text-white px-4 py-2 rounded-full hover:bg-red-500 active:bg-red-700 transition-all">
+						Submit
+					</button>
+				</div>
+			</div>
+		</div>
+
 
 		<div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
 
@@ -142,6 +195,7 @@
 
 		</div>
 	</section>
+	<script src="/js/app.js"></script>
 </body>
 
 </html>
