@@ -26,49 +26,59 @@
 	</header>
 
 	<section class="p-8 md:p-20 text-white">
-		<div>
-			<div class="mb-10">
-				<h1 class="text-left text-4xl md:text-5xl font-bold tracking-tighter">
-					Welcome to <span class="text-[#68C579]">Baztami</span>
-				</h1>
+		<div class="h-32">
+			<div class="grid grid-cols-2 items-center gap-2">
+
+				<div>
+					<h1 class="text-left text-3xl md:text-4xl font-bold tracking-tight">
+						Welcome to <span class="text-[#68C579]">Baztami</span>
+					</h1>
+				</div>
+
+
+				<div id="add"
+					class="justify-self-end bg-black/80 text-2xl px-2 py-1 rounded-md cursor-pointer active:bg-black/60">
+					+
+				</div>
 			</div>
-			
 		</div>
-		<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-			<!-- Revenus -->
-			<div class="bg-black/10 p-6 rounded-2xl shadow-xl h-40 grid">
-				<p class="font-bold text-3xl self-start justify-self-start">
+
+		<div class="grid grid-cols-1 md:grid-cols-6 gap-3">
+			
+			<div class="bg-black/10 p-3 rounded-lg shadow-md h-28 grid col-span-2">
+				<p class="font-semibold text-lg self-start justify-self-start">
 					Revenus
 				</p>
 				<div class="flex items-center gap-1 self-end justify-self-end">
-					<p class="text-green-500 text-5xl font-bold">+</p>
-					<div class="tracking-wide text-6xl font-bold leading-none">
+					<p class="text-green-500 text-2xl font-bold">+</p>
+					<div class="tracking-wide text-3xl font-bold leading-none">
 						<span id="Revenus">0</span>
 						<span>£</span>
 					</div>
 				</div>
 			</div>
 
-			<!-- Dépenses -->
-			<div class="bg-black/10 p-6 rounded-2xl shadow-xl h-40 grid">
-				<p class="font-bold text-3xl self-start justify-self-start">
+			
+			<div class="bg-black/10 p-3 rounded-lg shadow-md h-28 grid col-span-2">
+				<p class="font-semibold text-lg self-start justify-self-start">
 					Dépenses
 				</p>
 				<div class="flex items-center gap-1 self-end justify-self-end">
-					<p class="text-red-500 text-5xl font-bold">-</p>
-					<div class="tracking-wide text-6xl font-bold leading-none">
+					<p class="text-red-500 text-2xl font-bold">-</p>
+					<div class="tracking-wide text-3xl font-bold leading-none">
 						<span id="Deposit">0</span>
 						<span>£</span>
 					</div>
 				</div>
 			</div>
 
-			<!-- Solde -->
-			<div class="bg-black/10 p-6 rounded-2xl shadow-xl h-40 grid">
-				<p class="font-bold text-3xl self-start justify-self-start">Solde</p>
+			
+			<div class="bg-black/10 p-3 rounded-lg shadow-md h-28 grid col-span-2">
+				<p class="font-semibold text-lg self-start justify-self-start">
+					Solde
+				</p>
 				<div class="flex items-center gap-1 self-end justify-self-end">
-					<p class="text-green-500 text-5xl font-bold">+</p>
-					<div class="tracking-wide text-6xl font-bold leading-none">
+					<div class="tracking-wide text-3xl font-bold leading-none">
 						<span id="sold">0</span>
 						<span>£</span>
 					</div>
@@ -76,58 +86,42 @@
 			</div>
 		</div>
 
-		<div>
-
-		</div>
-		<div class="grid grid-cols-1 pt-2 md:grid-cols-2 gap-3">
-			<button id="openbtn1"
-				class="bg-red-400 text-center col-span-2 p-2 rounded-3xl border-2 border-red-600 hover:bg-red-600 active:bg-red-500">
-				Deposite
-			</button>
-			<button id="openbtn2"
-				class="bg-green-400 text-center col-span-2 p-2 rounded-3xl border-2 border-green-600 hover:bg-green-600 active:bg-green-500">
-				Revenus
-			</button>
-		</div>
-
-
-
-		<div id="popup1" class="hidden fixed inset-0 bg-black/60 flex items-start justify-center pt-20 ">
-			<!-- Popup -->
+		
+		<div id="popup" class="hidden fixed inset-0 bg-black/60 flex items-start justify-center pt-20">
 			<div class="bg-white rounded-2xl w-[25em] shadow-xl p-6">
 				<div class="flex justify-between items-center mb-4">
-					<h1 class="font-bold text-xl text-black">Deposit Amount</h1>
-					<img src="/images/exit-icon.png" alt="close" id="closebtn" class="w-7 cursor-pointer">
+					<h1 class="font-bold text-xl text-black">Add Transaction</h1>
+					<img src="/images/exit-icon.png" alt="close" id="closebtn" class="w-7 cursor-pointer" />
+				</div>
+
+				<div class="mb-4">
+					<label class="block mb-2 text-black font-semibold">Transaction type:</label>
+					<select id="typeselect"
+						class="w-full border border-gray-400 rounded-lg p-2 text-black bg-gray-100 focus:ring-2 focus:ring-purple-500">
+						<option value="deposite">Deposit</option>
+						<option value="revenus">Revenus</option>
+					</select>
 				</div>
 
 				<div class="mb-6">
-					<input type="text" placeholder="Enter amount" id="amountinput1"
-						class="text-black w-full border border-gray-400 p-2 rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500">
+					<label class="block mb-2 text-black font-semibold">Amount:</label>
+					<input type="number" placeholder="Enter amount" id="amountinput"
+						class="text-black w-full border border-gray-400 p-2 rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+				</div>
+				<div class="mb-4">
+					<label class="lock mb-2 text-black font-semibold">
+						Description</label>
+					<input type="text" placeholder="here..." id=""
+						class="text-black w-full border border-gray-400 p-2 rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-red-500" />
+				</div>
+				<div class="mb-4">
+					<label class="lock mb-2 text-black font-semibold">date</label>
+					<input type="date" id=""
+						class="text-black w-full border border-gray-400 p-2 rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-cyan-500" />
 				</div>
 
 				<div class="text-center">
-					<button id="submitbtn1"
-						class="bg-red-600 text-white px-4 py-2 rounded-full hover:bg-red-500 active:bg-red-700 transition-all">
-						Submit
-					</button>
-				</div>
-			</div>
-		</div>
-		<div id="popup2" class="hidden fixed inset-0 bg-black/60 flex items-start justify-center pt-20 ">
-			<!-- Popup -->
-			<div class="bg-white rounded-2xl w-[25em] shadow-xl p-6">
-				<div class="flex justify-between items-center mb-4">
-					<h1 class="font-bold text-xl text-black">Revenus Amout</h1>
-					<img src="/images/exit-icon.png" alt="close" id="closebtn_rev" class="w-7 cursor-pointer">
-				</div>
-
-				<div class="mb-6">
-					<input type="text" placeholder="Enter amount" id="amountinput2"
-						class="text-black w-full border border-gray-400 p-2 rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500">
-				</div>
-
-				<div class="text-center">
-					<button id="submitbtn2"
+					<button id="submitbtn"
 						class="bg-red-600 text-white px-4 py-2 rounded-full hover:bg-red-500 active:bg-red-700 transition-all">
 						Submit
 					</button>
@@ -135,64 +129,56 @@
 			</div>
 		</div>
 
+		<div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
+			<div class="bg-black/40 grid p-2 rounded-lg border border-white/10">
+				<div class="grid grid-cols-12 items-center gap-1">
+					<img src="/images/wallet-icon.png" alt="" class="bg-green-600 rounded-md w-6 h-6 p-1 col-span-1" />
 
-		<div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+					<p class="col-span-5 text-sm text-white truncate">
+						This is a paragraph
+					</p>
+					<span class="text-xs font-semibold text-gray-300">mm/dd/yyyy</span>
 
-			<div class="bg-black/50 grid p-3 rounded-xl border border-white/10 pt-2">
-				<div class="grid grid-cols-12 items-center gap-2">
-					<!-- Wallet Icon -->
-					<img src="/images/wallet-icon.png" alt="" class="bg-green-600 rounded-lg w-8 h-7 p-1 col-span-1" />
-
-					<!-- Description -->
-					<p class="col-span-6 text-white">This is a paragraph</p>
-
-					<!-- Amount -->
 					<div class="flex items-center justify-end col-span-3 text-white">
-						<p class="text-green-500 font-bold text-xl mr-1">+</p>
-						<div class="font-bold text-xl">
-							<span>700</span><span>£</span>
+						<p class="text-green-500 font-bold text-lg mr-1">+</p>
+						<div class="font-bold text-lg">
+							<span>???</span><span>£</span>
 						</div>
 					</div>
 
-					<!-- Action Buttons -->
-					<div class="flex justify-end col-span-2 gap-2">
+					<div class="flex justify-end col-span-2 gap-1">
 						<a href="#"><img src="/images/edit-icon.png" alt=""
-								class="w-6 h-6 bg-yellow-500 rounded-lg p-1 cursor-pointer hover:bg-yellow-600" /></a>
+								class="w-5 h-5 bg-yellow-500 rounded-md p-0.5 cursor-pointer hover:bg-yellow-600" /></a>
 						<a href="#"><img src="/images/delete-icon.png" alt=""
-								class="w-6 h-6 bg-red-500 rounded-lg p-1 cursor-pointer hover:bg-red-600" /></a>
-					</div>
-				</div>
-
-
-
-			</div>
-
-			<div class="bg-black/50 grid p-3 rounded-xl border border-white/10 pt-2">
-				<div class="grid grid-cols-12 items-center gap-2">
-					<!-- House Icon -->
-					<img src="/images/house-icon.png" alt="" class="bg-red-600 rounded-lg w-7 h-7 p-1 col-span-1" />
-
-					<!-- Description -->
-					<p class="col-span-6 text-white">This is a paragraph</p>
-
-					<!-- Amount -->
-					<div class="flex items-center justify-end col-span-3 text-white">
-						<p class="text-red-500 font-bold text-xl mr-1">-</p>
-						<div class="font-bold text-xl">
-							<span>700</span><span>£</span>
-						</div>
-					</div>
-
-					<!-- Action Buttons -->
-					<div class="flex justify-end col-span-2 gap-2">
-						<a href="#"><img src="/images/edit-icon.png" alt=""
-								class="w-6 h-6 bg-yellow-500 rounded-lg p-1 cursor-pointer hover:bg-yellow-600" /></a>
-						<a href="#"><img src="/images/delete-icon.png" alt=""
-								class="w-6 h-6 bg-red-500 rounded-lg p-1 cursor-pointer hover:bg-red-600" /></a>
+								class="w-5 h-5 bg-red-500 rounded-md p-0.5 cursor-pointer hover:bg-red-600" /></a>
 					</div>
 				</div>
 			</div>
 
+			<div class="bg-black/40 grid p-2 rounded-lg border border-white/10">
+				<div class="grid grid-cols-12 items-center gap-1">
+					<img src="/images/house-icon.png" alt="" class="bg-red-600 rounded-md w-6 h-6 p-1 col-span-1" />
+
+					<p class="col-span-5 text-sm text-white truncate">
+						This is a paragraph
+					</p>
+					<span class="text-xs font-semibold text-gray-300">mm/dd/yyyy</span>
+
+					<div class="flex items-center justify-end col-span-3 text-white">
+						<p class="text-red-500 font-bold text-lg mr-1">-</p>
+						<div class="font-bold text-lg">
+							<span>???</span><span>£</span>
+						</div>
+					</div>
+
+					<div class="flex justify-end col-span-2 gap-1">
+						<a href="#"><img src="/images/edit-icon.png" alt=""
+								class="w-5 h-5 bg-yellow-500 rounded-md p-0.5 cursor-pointer hover:bg-yellow-600" /></a>
+						<a href="#"><img src="/images/delete-icon.png" alt=""
+								class="w-5 h-5 bg-red-500 rounded-md p-0.5 cursor-pointer hover:bg-red-600" /></a>
+					</div>
+				</div>
+			</div>
 		</div>
 	</section>
 	<script src="/js/app.js"></script>
