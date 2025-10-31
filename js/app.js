@@ -47,6 +47,8 @@ let currentbalance_sold = Number(sold.innerText);
 
 let current_transaction = null;
 
+let transactions = [];
+
 
 
 
@@ -65,12 +67,51 @@ function soldcolor() {
   }
 }
 
+function saveData() {
+  const data = {
+    deposit: currentbalance_deposit,
+    revenus: currentbalance_revenus,
+    sold: currentbalance_sold,
+    transactions: transactions
+  };
+
+  localStorage.setItem("Data_structur", JSON.stringify(data));
+}
+function loadData() {
+  const saved = localStorage.getItem("Data_structur");
+  if (saved) {
+    const data = JSON.parse(saved);
+    currentbalance_deposit = data.deposit;
+    currentbalance_revenus = data.revenus;
+    currentbalance_sold = data.sold;
+    transactions = data.transactions;
+
+
+    balance_depo.textContent = currentbalance_deposit;
+    balance_rev.textContent = currentbalance_revenus;
+    sold.textContent = currentbalance_sold;
+    soldcolor();
+
+
+    transactions.forEach(t => {
+      Description.value = t.description;
+      amountinput.value = t.amount;
+      date.value = t.date;
+      if (t.type === "revenus") {
+        make_new_transaction_for_rev();
+      } else {
+        make_new_transaction_for_depo();
+      }
+    });
+  }
+}
+window.addEventListener("load", loadData);
 
 
 function make_new_transaction_for_rev() {
   const transaction_rev = document.createElement("div");
   transaction_rev.innerHTML = `
-    <div class="transaction-content grid grid-cols-12 items-center gap-1">
+    <div class="transaction-content grid grid-cols-12 items-center gap-1" id="only_rev">
       <img src="/images/wallet-icon.png" alt="" class="bg-green-600 rounded-md w-6 h-6 p-1 col-span-1" />
       <p class="col-span-4 text-sm text-white truncate description-edit">${Description.value}</p>
       <span class="col-span-2 text-xs font-semibold text-gray-300">${date.value}</span>
@@ -97,7 +138,7 @@ function make_new_transaction_for_rev() {
 function make_new_transaction_for_depo() {
   const transaction_depo = document.createElement("div");
   transaction_depo.innerHTML = `
-    <div class="transaction-content grid grid-cols-12 items-center gap-1">
+    <div class="transaction-content grid grid-cols-12 items-center gap-1" id="only_depo">
       <img src="/images/house-icon.png" alt="" class="bg-red-600 rounded-md w-6 h-6 p-1 col-span-1" />
       <p class="col-span-4 text-sm text-white truncate description-edit">${Description.value}</p>
       <span class="text-xs col-span-2 font-semibold text-gray-300">${date.value}</span>
@@ -164,6 +205,17 @@ function submitamout() {
   }
   popup.classList.add("hidden");
   soldcolor();
+
+  transactions.push({
+    type: type_select.value,
+    description: Description.value,
+    amount: Number(amountinput.value),
+    date: date.value
+  });
+  saveData();
+  amountinput.value = "";
+  Description.value = "";
+  date.value = "";
 }
 
 
@@ -181,36 +233,38 @@ edit_closebtn.addEventListener("click", close_popup_edit);
 document.addEventListener("click", (e) => {
   const edit_btn = e.target.closest(".edit_btn");
   if (edit_btn) {
-
-    const current_transaction = edit_btn.closest(".transaction-content");
-
-
-
+    current_transaction = edit_btn.closest(".transaction-content");
+    checkout_type = edit_btn.closest("#only_depo") || edit_btn.closest("#only_rev");
     document.getElementById("Description_popup_edit").value =
       current_transaction.querySelector(".description-edit").textContent;
-      
     document.getElementById("amountinput_edit").value =
       current_transaction.querySelector(".amount-edit").textContent;
-
-
+    const oldm = Number(document.getElementById("amountinput_edit").value);
+    localStorage.setItem("oldamountR", JSON.stringify(oldm));
     document.getElementById("popup_edit").classList.remove("hidden");
-
-
-    submitbtn_edit.addEventListener("click", () => {
-      const newdescription = document.getElementById("Description_popup_edit").value;
-      current_transaction.querySelector(".description-edit").textContent = newdescription;
-
-      const newamount = document.getElementById("amountinput_edit").value;
-      current_transaction.querySelector(".amount-edit").textContent = newamount;
-
-
-
-      
-
-      document.getElementById("popup_edit").classList.add("hidden");
-    });
   }
 });
+
+submitbtn_edit.addEventListener("click", () => {
+  const newdescription = document.getElementById("Description_popup_edit").value;
+  const newamount = Number(document.getElementById("amountinput_edit").value);
+  const oldamount = JSON.parse(localStorage.getItem("oldamountR"));
+  current_transaction.querySelector(".description-edit").textContent = newdescription;
+  current_transaction.querySelector(".amount-edit").textContent = newamount;
+  if (checkout_type && checkout_type.id === "only_depo") {
+    currentbalance_deposit = currentbalance_deposit - oldamount + newamount;
+    balance_depo.textContent = currentbalance_deposit;
+  }
+  if (checkout_type && checkout_type.id === "only_rev") {
+    currentbalance_revenus = currentbalance_revenus - oldamount + newamount;
+    balance_rev.textContent = currentbalance_revenus;
+  }
+  currentbalance_sold = currentbalance_revenus - currentbalance_deposit;
+  sold.textContent = currentbalance_sold;
+  document.getElementById("popup_edit").classList.add("hidden");
+  saveData();
+});
+
 
 
 
@@ -220,7 +274,20 @@ document.addEventListener("click", (e) => {
 
     const transaction = e.target.closest(".transaction-content");
     if (transaction) {
-      transaction.remove();
+      const confirmation = confirm("are you sure you want to delete this ? :")
+      if (confirmation) {
+        transaction.remove();
+        const description = transaction.querySelector(".description-edit").textContent;
+        const amount = Number(transaction.querySelector(".amount-edit").textContent);
+        transactions = transactions.filter(
+         (t) => !(t.description === description && t.amount === amount)
+        ); 
+        saveData();
+
+
+      }
     }
   }
 });
+
+
