@@ -50,9 +50,6 @@ let current_transaction = null;
 let transactions = [];
 
 
-
-
-
 function soldcolor() {
   if (currentbalance_sold < 0) {
     sold.classList.remove("text-green-400");
@@ -74,11 +71,44 @@ function saveData() {
     sold: currentbalance_sold,
     transactions: transactions
   };
-
   localStorage.setItem("Data_structur", JSON.stringify(data));
 }
+
+function updateUI() {
+  let totalDeposit = 0;
+  let totalRevenue = 0;
+
+  transactions.forEach(t => {
+    if (t.type === "deposite") {
+      totalDeposit += Number(t.amount);
+    }
+
+    if (t.type === "revenue") {
+      totalRevenue += Number(t.amount);
+    }
+  });
+
+  currentbalance_deposit = totalDeposit;
+  currentbalance_revenus = totalRevenue;
+  currentbalance_sold = totalRevenue - totalDeposit;
+
+  balance_depo.textContent = currentbalance_deposit;
+  balance_rev.textContent = currentbalance_revenus;
+  sold.textContent = currentbalance_sold;
+
+  localStorage.setItem("Data_structur", JSON.stringify({
+    deposit: currentbalance_deposit,
+    revenus: currentbalance_revenus,
+    sold: currentbalance_sold,
+    transactions: transactions
+  }));
+
+  soldcolor();
+}
+
 function loadData() {
   const saved = localStorage.getItem("Data_structur");
+
   if (saved) {
     const data = JSON.parse(saved);
     currentbalance_deposit = data.deposit;
@@ -223,7 +253,6 @@ function submitamout() {
 
 
 
-
 open_btn.addEventListener("click", open_popup);
 closebtn.addEventListener("click", close_popup);
 submitbtn.addEventListener("click", submitamout);
@@ -249,8 +278,10 @@ submitbtn_edit.addEventListener("click", () => {
   const newdescription = document.getElementById("Description_popup_edit").value;
   const newamount = Number(document.getElementById("amountinput_edit").value);
   const oldamount = JSON.parse(localStorage.getItem("oldamountR"));
+
   current_transaction.querySelector(".description-edit").textContent = newdescription;
   current_transaction.querySelector(".amount-edit").textContent = newamount;
+
   if (checkout_type && checkout_type.id === "only_depo") {
     currentbalance_deposit = currentbalance_deposit - oldamount + newamount;
     balance_depo.textContent = currentbalance_deposit;
@@ -262,7 +293,8 @@ submitbtn_edit.addEventListener("click", () => {
   currentbalance_sold = currentbalance_revenus - currentbalance_deposit;
   sold.textContent = currentbalance_sold;
   document.getElementById("popup_edit").classList.add("hidden");
-  saveData();
+
+  saveData()
 });
 
 
@@ -280,10 +312,10 @@ document.addEventListener("click", (e) => {
         const description = transaction.querySelector(".description-edit").textContent;
         const amount = Number(transaction.querySelector(".amount-edit").textContent);
         transactions = transactions.filter(
-         (t) => !(t.description === description && t.amount === amount)
-        ); 
+          (t) => !(t.description === description && t.amount === amount)
+        );
         saveData();
-
+updateUI()
 
       }
     }
